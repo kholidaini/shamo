@@ -23,7 +23,7 @@ class ProductCategoryController extends Controller
             if ($category) {
                 return ResponseFormatter::success(
                     $category,
-                    'Data kategoru berhasil diambil'
+                    'Data kategori berhasil diambil'
                 );
             } else {
                 return ResponseFormatter::error(

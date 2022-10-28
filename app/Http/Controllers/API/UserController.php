@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     public function register(Request $request)
@@ -70,7 +71,7 @@ class UserController extends Controller
             }
 
             $user = User::where('email',$request->email)->first();
-            if(! Hash::check($request->password, $user->password [])){
+            if(!Hash::check($request->password, $user->password, [])){
                 throw new \Exception('invalid credentials');
             }
 
@@ -93,11 +94,16 @@ class UserController extends Controller
         return ResponseFormatter::success($request->user(),'Data berhasil diproses');
     }
 
-    public function updateprofile(Request $request){
+    public function updateProfile(Request $request){
         $data=$request->all();
-        $user=Auth::user();
-        $user=update($data);
+        $user= Auth::user();
+        $user->update($data);
 
         return ResponseFormatter::success($user, 'profile sudha diupdate');
+    }
+
+    public function logout(Request $request){
+        $token=$request->user()->currentAccessToken()->delete();
+        return ResponseFormatter::success($token, 'Token berhasil diambil');
     }
 }
